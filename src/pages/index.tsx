@@ -37,7 +37,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Spotify - Web Player</title>
+        <title>Calypso - Erotic Audio</title>
         <meta property="og:title" title="Spotify - Web Player" key="title" />
         <meta httpEquiv="content-Type" content="text/html; utf-8" />
         <meta httpEquiv="Pragma" content="cache" />

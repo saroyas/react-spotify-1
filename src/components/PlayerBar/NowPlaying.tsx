@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState} from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import NowPlayingCover from '../NowPlaying/NowPlayingCover'
 import { useNowPlayingContext } from '../../contexts/useNowPlaying'
@@ -6,7 +6,8 @@ import ControlButton from '../ControlButton/ControlButton'
 import { Heart, PictureInPicture } from 'tabler-icons-react'
 import { Text } from '@mantine/core'
 import { useAppSelector } from '../../store/hooks'
-import { selectNowPlayingMedia } from '../../store/features/nowPlaying.slice'
+import { selectNowPlayingMedia} from '../../store/features/nowPlaying.slice'
+
 
 const NowPlaying = () => {
     const controls = useAnimation();
@@ -26,6 +27,7 @@ const NowPlaying = () => {
             return await controls.start({ x: 0 });
         }
     };
+
 
     return (
         <div className="flex flex-1 gap-2 items-center">

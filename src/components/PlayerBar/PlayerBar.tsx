@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import React from 'react'
 import { Breakpoint, maxWidth } from '../../utils/breakpoints';
 import Controls from './Controls';
+
 import NowPlaying from './NowPlaying';
 const Player = dynamic(() => import('./Player'), {
     ssr: false

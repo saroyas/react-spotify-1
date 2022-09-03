@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { MediaItem } from "../../models/MediaItem";
 import { dummyData } from "../../data/dummy";
 import { RootState } from "../store";
+import React, { useEffect } from 'react'
 
 type NowPlayingState = {
     media: MediaItem;
@@ -20,7 +21,7 @@ const nowPlayingSlice = createSlice({
         setNowPlayingMedia: (state: NowPlayingState, action: PayloadAction<MediaItem>) => ({
             ...state,
             media: action.payload,
-            playing: true
+            playing: true,
         }),
         setPlaying: (state: NowPlayingState, action: PayloadAction<boolean>) => ({
             ...state,

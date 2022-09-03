@@ -13,7 +13,7 @@ const useStyles = createStyles(theme => ({
     }
 }));
 
-const PlayButton: FunctionComponent<MediaItem> = ({ id, title, interpreter, img }) => {
+const PlayButton: FunctionComponent<MediaItem> = ({ id, title, interpreter, img, audio }) => {
     const dispatch = useAppDispatch();
     const { id: playingId, playing } = useAppSelector(selectPlaying);
     const { classes, cx } = useStyles();
@@ -22,7 +22,7 @@ const PlayButton: FunctionComponent<MediaItem> = ({ id, title, interpreter, img 
         if (playingId === id) {
             dispatch(setPlaying(!playing))
         } else {
-            dispatch(setNowPlayingMedia({ id, title, interpreter, img }));
+            dispatch(setNowPlayingMedia({ id, title, interpreter, img, audio }));
         }
     }
 

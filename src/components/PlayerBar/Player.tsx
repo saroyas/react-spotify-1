@@ -1,4 +1,4 @@
-import React, { createElement, useState } from 'react'
+import React, { createElement, useState, useEffect, useRef} from 'react'
 import { motion } from 'framer-motion'
 import { ArrowsShuffle, PlayerSkipBack, PlayerPlay, PlayerPause, PlayerSkipForward, Repeat } from 'tabler-icons-react';
 import ControlButton from '../ControlButton/ControlButton';
@@ -8,19 +8,47 @@ import { selectPlaying, setPlaying } from '../../store/features/nowPlaying.slice
 import { useMediaQuery } from '@mantine/hooks';
 import { Breakpoint, maxWidth } from '../../utils/breakpoints';
 import { useStyles } from '../../utils/styles';
+import { selectNowPlayingMedia} from '../../store/features/nowPlaying.slice'
+import {Howl, Howler} from 'howler';
+import ReactHowler from 'react-howler'
 
 const Player = () => {
-    const mockDuration = 435;
+    const [duration, setDuration] = useState(435);
     const sm = useMediaQuery(maxWidth(Breakpoint.sm));
     const dispatch = useAppDispatch();
     const { cx } = useStyles();
     const { playing } = useAppSelector(selectPlaying);
-    const [value, setValue] = useState(0);
+    const [currentPosition, setCurrentPosition] = useState(0);
+    const media = useAppSelector(selectNowPlayingMedia);
+    var howlerPlayer = useRef(null);
+
+    useEffect(() => {
+        if (howlerPlayer.current) {
+            setDuration(howlerPlayer.current.duration());
+        }
+    }, [media, playing]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (howlerPlayer.current) {
+                setDuration(howlerPlayer.current.duration());
+            }
+        }, 5000);
+      });
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (howlerPlayer.current) {
+                setCurrentPosition(howlerPlayer.current.seek());
+            }
+        }, 1000);
+      });
 
     const togglePlaying = () => dispatch(setPlaying(!playing));
 
     const handleOnChange = (value: number) => {
-        setValue((value / 100) * mockDuration);
+        howlerPlayer.current.seek((value / 100) * duration)
+        setCurrentPosition((value / 100) * duration);
     }
 
     const convertDuration = (duration: number) => {
@@ -44,6 +72,13 @@ const Player = () => {
                 'm-w-[722px] flex flex-col'
             )}
         >
+        <ReactHowler
+                    src={media.audio}
+                    playing={playing}
+                    ref={howlerPlayer}
+                    html5={true}
+                    loop={false}
+                    />
             <div className="mb-[12px]">
                 <div className="flex items-center text-[#b3b3b3] w-full gap-4">
                     <div className="flex-1 flex gap-4 items-center justify-end">
@@ -64,9 +99,9 @@ const Player = () => {
                 </div>
             </div>
             <div className="w-full flex gap-2 text-[#a7a7a7] justify-between items-center">
-                <span className="text-[0.6875rem]">{convertDuration(value)}</span>
-                <CSlider onChange={handleOnChange} step={0.1} className="w-full" size={5} label={null} />
-                <span className="text-[0.6875rem]">{convertDuration(mockDuration)}</span>
+                <span className="text-[0.6875rem]">{convertDuration(currentPosition)}</span>
+                <CSlider onChange={handleOnChange} className="w-full" size={5} label={null} value={currentPosition} max={duration}/>
+                <span className="text-[0.6875rem]">{convertDuration(duration)}</span>
             </div>
         </motion.div>
     )

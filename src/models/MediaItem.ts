@@ -3,4 +3,5 @@ export type MediaItem = {
     title: string;
     interpreter: string;
     img: string;
+    audio: string;
 }
