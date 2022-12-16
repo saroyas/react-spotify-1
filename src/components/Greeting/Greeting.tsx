@@ -12,7 +12,7 @@ const Greeting: FunctionComponent<TextProps> = ({ ...props }) => {
     } else if (hours >= 12 && hours < 18) {
       setGreeting('Hello');
     } else {
-      setGreeting('Good evening');
+      setGreeting('Ewaaay make you, make you Bassa Bassa');
     }
   }, []);
 
